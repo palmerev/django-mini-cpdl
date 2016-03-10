@@ -13,13 +13,14 @@ class MusicianTestCase(LiveServerTestCase):
 
     def test_musician_can_find_a_piece(self):
         """Test that a user can search for pieces"""
-        self.fail('Incomplete Test')
         # Carolyn is a singer who would like to find some peices to sing with
-        # her friends. She visits the home page of miniCPDL.
-
+        # her friends. She visits the home page of miniScoreLib.
+        home_page = self.browser.get(self.live_server_url + '/')
         # She knows she's in the right place because she can see the name of the
         # site in the browser chrome.
-
+        brand_element = self.browser.find_element_by_css_selector('.navbar-brand')
+        self.assertEqual('miniScoreLib', brand_element.text)
+        self.fail('Incomplete Test')
         # She sees the inputs of the search form, including labels
         # and placeholders.
 
