@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from scorelib import views as scorelibviews
 
 urlpatterns = [
+    url(r'^$', scorelibviews.index),
     url(r'^admin/', admin.site.urls),
 ]
