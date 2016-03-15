@@ -1,7 +1,7 @@
 from django.test import TestCase, RequestFactory
 from django.db.models.query import QuerySet
 
-from scorelib.views import index
+from scorelib.views import index, ScoreDetailView
 from scorelib.models import Score
 
 
@@ -40,3 +40,26 @@ class IndexViewTestCase(TestCase):
         self.assertIs(type(scores), QuerySet)
         self.assertEqual(len(scores), 1)
         self.assertEqual(scores[0].composer, 'John Dowland')
+
+
+class ScoreViewTestCase(TestCase):
+    def setUp(self):
+        self.factory = RequestFactory()
+
+    def test_basic(self):
+        """Test the the score view returns a 200 response,
+            uses correct template, and has the correct context"""
+        request = self.factory.get('/solos/1/')
+
+        response = ScoreDetailView.as_view()(
+            request,
+            self.piece1.pk
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            response.context_data['score'].composer,
+            'Anonymous'
+        )
+        with self.assertTemplateUsed('scorelib/score_detail.html'):
+            response.render()

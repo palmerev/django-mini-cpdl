@@ -2,6 +2,7 @@ import logging
 
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
+from django.views.generic.detail import DetailView
 
 from .models import Score
 
@@ -34,3 +35,7 @@ def index(request):
         context['scores'] = scores_queryset
 
     return render_to_response('scorelib/index.html', context)
+
+
+class ScoreDetailView(DetailView):
+    pass
