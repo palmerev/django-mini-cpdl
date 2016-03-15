@@ -1,3 +1,7 @@
 from django.db import models
 
-# Create your models here.
+
+class Score(models.Model):
+    title = models.CharField(max_length=100)
+    composer = models.CharField(max_length=100)
+    voicing = models.CharField(max_length=100)
