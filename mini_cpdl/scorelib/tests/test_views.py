@@ -2,11 +2,22 @@ from django.test import TestCase, RequestFactory
 from django.db.models.query import QuerySet
 
 from scorelib.views import index
+from scorelib.models import Score
 
 
 class IndexViewTestCase(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
+        self.piece1 = Score.objects.create(
+            composer='John Dowland',
+            voicing='SATB',
+            title='Some Dowland Piece'
+        )
+        self.piece2 = Score.objects.create(
+            composer='Anonymous',
+            voicing='SSA',
+            title='Ave Maria'
+        )
 
     def test_index_view_basic(self):
         """Test that the index view returns a 200 response and
@@ -23,9 +34,9 @@ class IndexViewTestCase(TestCase):
         # access the response.context dictionary
         response = self.client.get(
             '/',
-            {'composer': 'Dowland'}
+            {'voicing': 'SATB'}
         )
-        self.assertIs(
-            type(response.context['scores']),
-            QuerySet
-        )
+        scores = response.context['scores']
+        self.assertIs(type(scores), QuerySet)
+        self.assertEqual(len(scores), 1)
+        self.assertEqual(scores[0].composer, 'John Dowland')
