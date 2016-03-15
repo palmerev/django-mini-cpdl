@@ -1,12 +1,30 @@
 from django.test import LiveServerTestCase
 from selenium import webdriver
 
+from scorelib.models import Score
+
 
 class MusicianTestCase(LiveServerTestCase):
 
     def setUp(self):
         self.browser = webdriver.Firefox()
         self.browser.implicitly_wait(2)
+
+        self.score1 = Score.objects.create(
+            composer='Orlando di Lasso',
+            voicing='SATB',
+            title='An SATB Lasso Piece'
+        )
+        self.score2 = Score.objects.create(
+            composer='Orlando di Lasso',
+            voicing='SATB',
+            title='Another SATB Lasso Piece'
+        )
+        self.score3 = Score.objects.create(
+            composer='Orlando di Lasso',
+            voicing='SSATB',
+            title='A Five-Part Lasso Piece'
+        )
 
     def tearDown(self):
         self.browser.quit()
@@ -40,15 +58,17 @@ class MusicianTestCase(LiveServerTestCase):
         self.browser.find_element_by_css_selector('form button').click()
         # She sees too many search results...
         search_results = self.browser.find_elements_by_css_selector(
-            '.search-result')
+            '.scorelib-search-result')
+        self.browser.implicitly_wait(1)
         self.assertGreater(len(search_results), 2)
         # ...so she adds a voicing to her search query and gets a more
         # manageable list.
         voicing_input = self.browser.find_element_by_css_selector(
             'input#voicing-field')
         voicing_input.send_keys('SATB')
+        self.browser.find_element_by_css_selector('form button').click()
         search_results2 = self.browser.find_elements_by_css_selector(
-            '.search-result')
+            '.scorelib-search-result')
         self.assertEqual(len(search_results2), 2)
         self.fail('Incomplete Test')
         # She clicks on a search result.
