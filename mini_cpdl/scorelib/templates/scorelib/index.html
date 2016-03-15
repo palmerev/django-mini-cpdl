@@ -8,7 +8,9 @@
         class="form-control" id="voicing-field" placeholder="i.e. SATB">
     <button type="submit" name="button">Search</button>
 
-    <div class="search-result"></div>
-    <div class="search-result"></div>
-    <div class="search-result"></div>
+    {% for score in scores %}
+        <div class="scorelib-search-result">
+            {{ score.title }} - {{ score.composer }} ({{ score.voicing }})
+        </div>
+    {% endfor %}
 </form>
