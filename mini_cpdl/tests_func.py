@@ -51,7 +51,8 @@ class MusicianTestCase(LiveServerTestCase):
             'input#voicing-field')
         self.assertIsNotNone(self.browser.find_element_by_css_selector(
             'label[for="voicing-field"]'))
-        self.assertEqual(voicing_input.get_attribute('placeholder'), 'i.e. SATB')
+        self.assertEqual(
+            voicing_input.get_attribute('placeholder'), 'i.e. SATB')
 
         # She types in the name of a composer, and submits it.
         composer_input.send_keys('Lasso')
@@ -70,10 +71,29 @@ class MusicianTestCase(LiveServerTestCase):
         search_results2 = self.browser.find_elements_by_css_selector(
             '.scorelib-search-result')
         self.assertEqual(len(search_results2), 2)
-        self.fail('Incomplete Test')
+        result_links = self.browser.find_elements_by_css_selector(
+            '.scorelib-search-result a'
+        )
+        self.assertEqual(len(result_links), 2)
         # She clicks on a search result.
-
+        result_links[0].click()
+        self.fail('Incomplete Test')
         # The piece's page has the title, composer, and voicing of
         # the piece.
-
+        self.assertEqual(
+            self.browser.current_url,
+            '{}/scores/2/'.format(self.live_server_url0)
+        )
+        self.assertEqual(
+            self.browser.find_element_by_css_selector('#scorelib-title').text,
+            'Another SATB Lasso Piece'
+        )
+        self.assertEqual(
+            self.browser.find_element_by_css_selector('#scorelib-voicing').text,
+            'SATB'
+        )
         # She also sees an option to bookmark this piece.
+        self.assertEqual(self.browser.find_element_by_css_selector(
+            '#scorelib-bookmark-btn').text,
+            'Bookmark this piece'
+        )
