@@ -5,20 +5,27 @@ from scorelib.views import index, ScoreDetailView
 from scorelib.models import Score
 
 
-class IndexViewTestCase(TestCase):
+class ScorelibBaseTestCase(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
-        self.piece1 = Score.objects.create(
+
+    @classmethod
+    def setUpClass(cls):
+        # this calls inherited django code that uses setUpClass itself
+        super().setUpClass()
+        cls.piece1 = Score.objects.create(
             composer='John Dowland',
             voicing='SATB',
             title='Some Dowland Piece'
         )
-        self.piece2 = Score.objects.create(
+        cls.piece2 = Score.objects.create(
             composer='Anonymous',
             voicing='SSA',
             title='Ave Maria'
         )
 
+
+class IndexViewTestCase(ScorelibBaseTestCase):
     def test_index_view_basic(self):
         """Test that the index view returns a 200 response and
         uses the correct template"""
@@ -42,10 +49,7 @@ class IndexViewTestCase(TestCase):
         self.assertEqual(scores[0].composer, 'John Dowland')
 
 
-class ScoreViewTestCase(TestCase):
-    def setUp(self):
-        self.factory = RequestFactory()
-
+class ScoreViewTestCase(ScorelibBaseTestCase):
     def test_basic(self):
         """Test the the score view returns a 200 response,
             uses correct template, and has the correct context"""
