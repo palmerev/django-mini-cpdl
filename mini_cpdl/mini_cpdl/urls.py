@@ -20,4 +20,5 @@ from scorelib import views as scorelibviews
 urlpatterns = [
     url(r'^$', scorelibviews.index),
     url(r'^admin/', admin.site.urls),
+    url(r'^scores/(?P<pk>\d+)/$', scorelibviews.ScoreDetailView.as_view()),
 ]
