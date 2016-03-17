@@ -10,7 +10,9 @@
 
     {% for score in scores %}
         <div class="scorelib-search-result">
-            {{ score.title }} - {{ score.composer }} ({{ score.voicing }})
+            <a href="/scores/{{ score.pk }}/">
+                {{ score.title }} - {{ score.composer }} ({{ score.voicing }})
+            </a>
         </div>
     {% endfor %}
 </form>
