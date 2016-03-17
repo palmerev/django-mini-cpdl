@@ -38,4 +38,4 @@ def index(request):
 
 
 class ScoreDetailView(DetailView):
-    pass
+    model = Score

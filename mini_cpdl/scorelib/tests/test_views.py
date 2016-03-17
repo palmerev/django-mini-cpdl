@@ -57,13 +57,13 @@ class ScoreViewTestCase(ScorelibBaseTestCase):
 
         response = ScoreDetailView.as_view()(
             request,
-            self.piece1.pk
+            pk=self.piece1.pk
         )
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
             response.context_data['score'].composer,
-            'Anonymous'
+            'John Dowland'
         )
         with self.assertTemplateUsed('scorelib/score_detail.html'):
             response.render()
