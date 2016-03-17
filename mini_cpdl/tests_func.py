@@ -76,14 +76,14 @@ class MusicianTestCase(LiveServerTestCase):
         )
         self.assertEqual(len(result_links), 2)
         # She clicks on a search result.
-        result_links[0].click()
-        self.fail('Incomplete Test')
+        result_links[1].click()
         # The piece's page has the title, composer, and voicing of
         # the piece.
         self.assertEqual(
             self.browser.current_url,
-            '{}/scores/2/'.format(self.live_server_url0)
+            '{}/scores/2/'.format(self.live_server_url)
         )
+        self.fail('Incomplete Test')
         self.assertEqual(
             self.browser.find_element_by_css_selector('#scorelib-title').text,
             'Another SATB Lasso Piece'
