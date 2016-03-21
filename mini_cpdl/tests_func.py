@@ -33,6 +33,10 @@ class MusicianTestCase(LiveServerTestCase):
         return self.browser.find_elements_by_css_selector(
             '.scorelib-search-result a')
 
+    def find_collection_menu(self):
+        return self.browser.find_element_by_css_selector(
+            '#scorelib-collection-menu')
+
     def test_musician_can_find_a_piece(self):
         """Test that a user can search for pieces"""
         # Carolyn is a singer who would like to find some peices to sing with
@@ -93,7 +97,10 @@ class MusicianTestCase(LiveServerTestCase):
             self.browser.find_element_by_css_selector('#score-detail-composer').text,
             'Orlando di Lasso'
         )
-        # She also sees an option to add the this piece to a collection.
+        # She also sees an option to add the this piece to a collection,
+        # next to a drop-down menu of existing collections
+        collection_menu = self.find_collection_menu()
+        self.assertIsNotNone(collection_menu)
         self.assertEqual(self.browser.find_element_by_css_selector(
             '#scorelib-add-btn').text,
             'Add to collection'
