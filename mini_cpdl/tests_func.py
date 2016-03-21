@@ -29,6 +29,10 @@ class MusicianTestCase(LiveServerTestCase):
     def tearDown(self):
         self.browser.quit()
 
+    def find_search_results(self):
+        return self.browser.find_elements_by_css_selector(
+            '.scorelib-search-result a')
+
     def test_musician_can_find_a_piece(self):
         """Test that a user can search for pieces"""
         # Carolyn is a singer who would like to find some peices to sing with
@@ -58,8 +62,7 @@ class MusicianTestCase(LiveServerTestCase):
         composer_input.send_keys('Lasso')
         self.browser.find_element_by_css_selector('form button').click()
         # She sees too many search results...
-        search_results = self.browser.find_elements_by_css_selector(
-            '.scorelib-search-result')
+        search_results = self.find_search_results()
         self.browser.implicitly_wait(1)
         self.assertGreater(len(search_results), 2)
         # ...so she adds a voicing to her search query and gets a more
@@ -68,15 +71,10 @@ class MusicianTestCase(LiveServerTestCase):
             'input#voicing-field')
         voicing_input.send_keys('SATB')
         self.browser.find_element_by_css_selector('form button').click()
-        search_results2 = self.browser.find_elements_by_css_selector(
-            '.scorelib-search-result')
+        search_results2 = self.find_search_results()
         self.assertEqual(len(search_results2), 2)
-        result_links = self.browser.find_elements_by_css_selector(
-            '.scorelib-search-result a'
-        )
-        self.assertEqual(len(result_links), 2)
         # She clicks on a search result.
-        result_links[1].click()
+        search_results2[1].click()
         # The piece's page has the title, composer, and voicing of
         # the piece.
         self.assertEqual(
