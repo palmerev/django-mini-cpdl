@@ -81,17 +81,21 @@ class MusicianTestCase(LiveServerTestCase):
             self.browser.current_url,
             '{}/scores/2/'.format(self.live_server_url)
         )
-        self.fail('Incomplete Test')
         self.assertEqual(
-            self.browser.find_element_by_css_selector('#scorelib-title').text,
+            self.browser.find_element_by_css_selector('#score-detail-title').text,
             'Another SATB Lasso Piece'
         )
         self.assertEqual(
-            self.browser.find_element_by_css_selector('#scorelib-voicing').text,
+            self.browser.find_element_by_css_selector('#score-detail-voicing').text,
             'SATB'
         )
-        # She also sees an option to bookmark this piece.
-        self.assertEqual(self.browser.find_element_by_css_selector(
-            '#scorelib-bookmark-btn').text,
-            'Bookmark this piece'
+        self.assertEqual(
+            self.browser.find_element_by_css_selector('#score-detail-composer').text,
+            'Orlando di Lasso'
         )
+        # She also sees an option to add the this piece to a collection.
+        self.assertEqual(self.browser.find_element_by_css_selector(
+            '#scorelib-add-btn').text,
+            'Add to collection'
+        )
+        self.fail('Incomplete Test')
