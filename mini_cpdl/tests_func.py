@@ -105,4 +105,9 @@ class MusicianTestCase(LiveServerTestCase):
             '#scorelib-add-btn').text,
             'Add to collection'
         )
-        self.fail('Incomplete Test')
+
+    def test_musician_can_create_collection(self):
+        pass
+
+    def test_musician_can_modify_to_collection(self):
+        pass
