@@ -33,10 +33,6 @@ class MusicianTestCase(LiveServerTestCase):
         return self.browser.find_elements_by_css_selector(
             '.scorelib-search-result a')
 
-    def find_collection_menu(self):
-        return self.browser.find_element_by_css_selector(
-            '#scorelib-collection-menu')
-
     def test_musician_can_find_a_piece(self):
         """Test that a user can search for pieces"""
         # Carolyn is a singer who would like to find some peices to sing with
@@ -97,17 +93,45 @@ class MusicianTestCase(LiveServerTestCase):
             self.browser.find_element_by_css_selector('#score-detail-composer').text,
             'Orlando di Lasso'
         )
-        # She also sees an option to add the this piece to a collection,
-        # next to a drop-down menu of existing collections
-        collection_menu = self.find_collection_menu()
-        self.assertIsNotNone(collection_menu)
-        self.assertEqual(self.browser.find_element_by_css_selector(
-            '#scorelib-add-btn').text,
-            'Add to collection'
-        )
 
-    def test_musician_can_create_collection(self):
-        pass
+    # continued from the score detail page
+    def test_musician_can_create_collections(self):
+        """Test that if the user clicks on the 'Add to collection' button,
+        they will be prompted to create one if they don't already have one,
+        or prompted to choose one from a list."""
+
+        # She sees a button labeled 'New collection',
+        self.assertEqual(self.browser.find_element_by_css_selector(
+            '#scorelib-new-collection-btn').text,
+            'New collection'
+        )
+        # She clicks the 'New collection' button
+
+        # A modal appears saying 'You don't have any collections'
+
+        # The modal also includes an input field that's labeled:
+        # 'Enter name for new collection', and a 'Create' button
+
+        # She enters 'SATB Italian Madrigals' and clicks 'Create'
+
+        # She sees the 'You don't have any collections' text replaced by the
+        # name of her new collection
+
+        # She clicks the 'X' in the upper right-hand corner of the modal, and
+        # the modal disappears
+
+        # She notices that a new button has appeared on the page that says
+        # 'Add to collection'
+
+        # She clicks 'Add to collection', and another modal appears titled
+        # 'Add "Another SATB Lasso Piece" to...', and listing her
+        # 'SATB Italian Madrigals' collection
+
+        # She clicks on the name of her collection and is notified that
+        # the piece has been added to the collection
+
+        # Satisfied, she clicks the 'X' in the upper right-hand corner of
+        # the modal, and it disappears
 
     def test_musician_can_modify_to_collection(self):
         pass
