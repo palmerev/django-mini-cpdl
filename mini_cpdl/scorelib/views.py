@@ -18,8 +18,9 @@ logging.basicConfig(
 def index(request):
     context = {'scores': []}
     if request.GET:
-        logging.debug("request.GET: %s", request.GET)
+        logging.debug("\n\n\nrequest.GET: %s", request.GET)
         scores_queryset = Score.objects.all()
+        logging.debug("initial scores_queryset: %s", scores_queryset)
         if request.GET.get('voicing', None):
             logging.debug("voicing filter ran with voicing: %s", request.GET['voicing'])
             scores_queryset = scores_queryset.filter(
@@ -31,7 +32,7 @@ def index(request):
             scores_queryset = scores_queryset.filter(
                 composer__icontains=composer
             )
-
+        logging.debug("final scores_queryset: %s", scores_queryset)
         context['scores'] = scores_queryset
 
     return render_to_response('scorelib/index.html', context)
