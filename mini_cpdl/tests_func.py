@@ -63,7 +63,6 @@ class MusicianTestCase(LiveServerTestCase):
         self.browser.find_element_by_css_selector('form button').click()
         # She sees too many search results...
         search_results = self.find_search_results()
-        self.browser.implicitly_wait(1)
         self.assertGreater(len(search_results), 2)
         # ...so she adds a voicing to her search query and gets a more
         # manageable list.
