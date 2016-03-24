@@ -46,6 +46,11 @@ class MusicianTestCase(BaseMusicianTestCase):
 
     def test_musician_can_find_a_piece(self):
         """Test that a user can search for pieces"""
+
+        print('-- scores in DB: {} --'.format(len(Score.objects.all())))
+        print(self.score1)
+        print(self.score2)
+        print(self.score3)
         # Carolyn is a singer who would like to find some peices to sing with
         # her friends. She visits the home page of miniScoreLib.
         home_page = self.browser.get(self.live_server_url + '/')
