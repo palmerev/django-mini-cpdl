@@ -7,30 +7,39 @@ from django.test import LiveServerTestCase
 from scorelib.models import Score
 
 
-class MusicianTestCase(LiveServerTestCase):
+class BaseMusicianTestCase(LiveServerTestCase):
 
-    def setUp(self):
-        self.browser = webdriver.Firefox()
-        self.browser.implicitly_wait(2)
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.browser = webdriver.Firefox()
+        cls.browser.implicitly_wait(2)
 
-        self.score1 = Score.objects.create(
+        cls.score1 = Score.objects.create(
             composer='Orlando di Lasso',
             voicing='SATB',
             title='An SATB Lasso Piece'
         )
-        self.score2 = Score.objects.create(
+        cls.score2 = Score.objects.create(
             composer='Orlando di Lasso',
             voicing='SATB',
             title='Another SATB Lasso Piece'
         )
-        self.score3 = Score.objects.create(
+        cls.score3 = Score.objects.create(
             composer='Orlando di Lasso',
             voicing='SSATB',
             title='A Five-Part Lasso Piece'
         )
 
-    def tearDown(self):
-        self.browser.quit()
+    @classmethod
+    def tearDown(cls):
+        del cls.score1
+        del cls.score2
+        del cls.score3
+        cls.browser.quit()
+
+
+class MusicianTestCase(BaseMusicianTestCase):
 
     def find_search_results(self):
         return self.browser.find_elements_by_css_selector(
