@@ -109,22 +109,21 @@ class MusicianTestCase(BaseMusicianTestCase):
             'Orlando di Lasso'
         )
 
-    @skip('not ready for this yet')
+    # @skip('not ready for this yet')
     def test_musician_can_create_collections(self):
         """Test that if the user clicks on the 'Add to collection' button,
         they will be prompted to create one if they don't already have one,
         or prompted to choose one from a list."""
 
-        # From the score detail page
-        score_page = self.browser.get('/{}/scores/2/'.format(self.live_server_url))
-        # She sees a button labeled 'New collection',
-        self.assertEqual(self.browser.find_element_by_css_selector(
-            '#scorelib-new-collection-btn').text,
-            'New collection'
-        )
+        # On the score detail page
+        score_page = self.browser.get(self.live_server_url + '/scores/2/')
+        # She sees a button labeled 'Add to collection',
+        new_collection_button = self.browser.find_element_by_css_selector(
+            '#scorelib-add-btn')
+        self.assertEqual(new_collection_button.text, 'Add to collection')
+        # She clicks the 'Add to collection' button
+        new_collection_button.click()
         self.fail('Incomplete test')
-        # She clicks the 'New collection' button
-
         # A modal appears saying 'You don't have any collections'
 
         # The modal also includes an input field that's labeled:
