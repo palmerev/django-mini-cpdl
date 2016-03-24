@@ -32,10 +32,9 @@ class BaseMusicianTestCase(LiveServerTestCase):
         )
 
     @classmethod
-    def tearDown(cls):
-        del cls.score1
-        del cls.score2
-        del cls.score3
+    def tearDownClass(cls):
+        super().tearDownClass()
+        Score.objects.all().delete()
         cls.browser.quit()
 
 
