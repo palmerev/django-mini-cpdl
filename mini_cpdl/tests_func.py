@@ -1,5 +1,8 @@
-from django.test import LiveServerTestCase
+
 from selenium import webdriver
+from unittest import skip
+
+from django.test import LiveServerTestCase
 
 from scorelib.models import Score
 
@@ -93,17 +96,20 @@ class MusicianTestCase(LiveServerTestCase):
             'Orlando di Lasso'
         )
 
-    # continued from the score detail page
+    @skip('not ready for this yet')
     def test_musician_can_create_collections(self):
         """Test that if the user clicks on the 'Add to collection' button,
         they will be prompted to create one if they don't already have one,
         or prompted to choose one from a list."""
 
+        # From the score detail page
+        score_page = self.browser.get('/{}/scores/2/'.format(self.live_server_url))
         # She sees a button labeled 'New collection',
         self.assertEqual(self.browser.find_element_by_css_selector(
             '#scorelib-new-collection-btn').text,
             'New collection'
         )
+        self.fail('Incomplete test')
         # She clicks the 'New collection' button
 
         # A modal appears saying 'You don't have any collections'
@@ -132,5 +138,6 @@ class MusicianTestCase(LiveServerTestCase):
         # Satisfied, she clicks the 'X' in the upper right-hand corner of
         # the modal, and it disappears
 
+    @skip('not written yet')
     def test_musician_can_modify_to_collection(self):
         pass
